@@ -1,0 +1,24 @@
+{
+  "name": "hapi-crawlable-spa-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitterulf/hapi-crawlable-spa-example.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bitterulf/hapi-crawlable-spa-example/issues"
+  },
+  "homepage": "https://github.com/bitterulf/hapi-crawlable-spa-example#readme",
+  "dependencies": {
+    "hapi": "^16.1.0",
+    "hapi-crawlable-spa": "^1.0.0",
+    "inert": "^4.1.0"
+  }
+}

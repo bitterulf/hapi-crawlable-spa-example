@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <title>mithril</title>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mithril/0.2.5/mithril.min.js'></script>
+</head>
+
+<body>
+    <div id='app'></div>
+    <script>
+        var Home = {
+            controller: function() {
+                return {}
+            },
+
+            view: function(ctrl) {
+                return m('div', [
+                    m('h1', 'content'),
+                    m('a[href="/content"]', {
+                        config: m.route
+                    }, 'content')
+                ]);
+            }
+        };
+
+        var Content = {
+            controller: function() {
+                return {}
+            },
+
+            view: function(ctrl) {
+                return m('div', [
+                    m('h1', 'home'),
+                    m('a[href="/"]', {
+                        config: m.route
+                    }, 'home')
+                ]);
+            }
+        };
+
+        m.route(document.getElementById('app'), '/', {
+            '/': Home,
+            '/content': Content,
+        });
+    </script>
+</body>
+
+</html>
