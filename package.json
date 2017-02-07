@@ -18,6 +18,7 @@
   "homepage": "https://github.com/bitterulf/hapi-crawlable-spa-example#readme",
   "dependencies": {
     "good": "^7.1.0",
+    "good-squeeze": "^5.0.1",
     "good-winston": "^3.0.0",
     "hapi": "^16.1.0",
     "hapi-crawlable-spa": "^1.1.1",

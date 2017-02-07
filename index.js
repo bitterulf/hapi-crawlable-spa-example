@@ -39,13 +39,17 @@ server.register({
   options: {
     reporters:{
       winston: [{
+            module: 'good-squeeze',
+            name: 'Squeeze',
+            args: [{response: '*'}]
+        },{
         module: 'good-winston',
         args:[winston, {
             error_level: 'error',
-            ops_level: 'debug',
-            request_level:'debug',
+            // ops_level: 'info',
+            // request_level:'info',
             response_level:'info',
-            other_level: 'info'
+            //other_level: 'info'
         }]
       }]
     }
