@@ -5,6 +5,8 @@ const Hapi = require('hapi');
 const config = require('./config.json');
 const winston = require('winston');
 require('winston-loggly-bulk');
+const GoodWinston = require('good-winston');
+const good = require('good');
 
 const server = new Hapi.Server({
   debug: {
@@ -31,6 +33,27 @@ winston.add(winston.transports.Loggly, {
     tags: ['crawl-example', server.info.host+'_'+server.info.port],
     json:true
 });
+
+server.register({
+  register: good,
+  options: {
+    reporters:{
+      winston: [{
+        module: 'good-winston',
+        args:[winston, {
+            error_level: 'error',
+            ops_level: 'debug',
+            request_level:'debug',
+            response_level:'info',
+            other_level: 'info'
+        }]
+      }]
+    }
+}, function(err) {
+  if (err) {
+    return server.log(['error'], 'good load error: ' + err);
+  }
+}});
 
 server.register(Inert, () => {});
 
