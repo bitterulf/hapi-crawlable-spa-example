@@ -19,6 +19,7 @@
   "dependencies": {
     "hapi": "^16.1.0",
     "hapi-crawlable-spa": "^1.1.1",
-    "inert": "^4.1.0"
+    "inert": "^4.1.0",
+    "winston": "^2.3.1"
   }
 }

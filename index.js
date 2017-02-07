@@ -2,6 +2,9 @@
 const Inert = require('inert');
 const Path = require('path');
 const Hapi = require('hapi');
+const config = require('./config.json');
+const winston = require('winston');
+require('winston-loggly-bulk');
 
 const server = new Hapi.Server({
   debug: {
@@ -20,6 +23,13 @@ const server = new Hapi.Server({
 server.connection({
   labels: ['api'],
   port: process.argv[2] || 4000
+});
+
+winston.add(winston.transports.Loggly, {
+    token: config.token,
+    subdomain: config.subdomain,
+    tags: ['crawl-example', server.info.host+'_'+server.info.port],
+    json:true
 });
 
 server.register(Inert, () => {});
@@ -50,5 +60,5 @@ server.start((err) => {
         throw err;
     }
 
-    console.log(`server running at: ${server.info.uri}`);
+    winston.log('info', `server running at: ${server.info.uri}`);
 });
