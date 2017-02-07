@@ -18,7 +18,7 @@
   "homepage": "https://github.com/bitterulf/hapi-crawlable-spa-example#readme",
   "dependencies": {
     "hapi": "^16.1.0",
-    "hapi-crawlable-spa": "^1.0.0",
+    "hapi-crawlable-spa": "^1.1.0",
     "inert": "^4.1.0"
   }
 }

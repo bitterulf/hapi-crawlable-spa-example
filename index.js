@@ -28,7 +28,8 @@ server.register({
     register: require('hapi-crawlable-spa'),
     options: {
         cronTime: '0 * * * * *',
-        wait: 1000
+        wait: 1000,
+        uri: process.argv[3]
     }
 });
 
