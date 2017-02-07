@@ -8,6 +8,8 @@
 <body>
     <div id='app'></div>
     <script>
+        var loadedData = {};
+
         var Home = {
             controller: function() {
                 return {}
@@ -30,7 +32,8 @@
 
             view: function(ctrl) {
                 return m('div', [
-                    m('h1', 'home'),
+                    m('h1', (loadedData.title || 'loading')),
+                    m('div', (loadedData.content || 'loading')),
                     m('a[href="/"]', {
                         config: m.route
                     }, 'home')
@@ -42,6 +45,13 @@
             '/': Home,
             '/content': Content,
         });
+
+        m.request({
+            method: 'GET',
+            url: 'data.json'
+        }).then(function(data) {
+            loadedData = data;
+        })
     </script>
 </body>
 
