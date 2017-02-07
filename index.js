@@ -19,7 +19,7 @@ const server = new Hapi.Server({
 
 server.connection({
   labels: ['api'],
-  port: 4000
+  port: process.argv[2] || 4000
 });
 
 server.register(Inert, () => {});
