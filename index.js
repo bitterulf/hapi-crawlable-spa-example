@@ -82,6 +82,10 @@ server.route({
     }
 });
 
+server.on('log', function(data) {
+    winston.log('info', {event: 'crawling', keys: data.data.keys});
+});
+
 server.start((err) => {
     if (err) {
         throw err;
