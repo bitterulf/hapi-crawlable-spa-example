@@ -3,10 +3,11 @@ const Inert = require('inert');
 const Path = require('path');
 const Hapi = require('hapi');
 const config = require('./config.json');
-const winston = require('winston');
-require('winston-loggly-bulk');
-const GoodWinston = require('good-winston');
-const good = require('good');
+
+var bunyan = require('bunyan');
+var Bunyan2Loggly = require('bunyan-loggly');
+var logglyConfig = require('./config.json');
+var logglyStream = new Bunyan2Loggly(logglyConfig);
 
 const server = new Hapi.Server({
   debug: {
@@ -27,37 +28,16 @@ server.connection({
   port: process.argv[2] || 4000
 });
 
-winston.add(winston.transports.Loggly, {
-    token: config.token,
-    subdomain: config.subdomain,
-    tags: ['crawl-example', server.info.host+'_'+server.info.port],
-    json:true
+var logger = bunyan.createLogger({
+    name: 'crawl-test',
+    uri: server.info.uri,
+    streams: [
+        {
+            type: 'raw',
+            stream: logglyStream,
+        },
+    ],
 });
-
-server.register({
-  register: good,
-  options: {
-    reporters:{
-      winston: [{
-            module: 'good-squeeze',
-            name: 'Squeeze',
-            args: [{response: '*'}]
-        },{
-        module: 'good-winston',
-        args:[winston, {
-            error_level: 'error',
-            // ops_level: 'info',
-            // request_level:'info',
-            response_level:'info',
-            //other_level: 'info'
-        }]
-      }]
-    }
-}, function(err) {
-  if (err) {
-    return server.log(['error'], 'good load error: ' + err);
-  }
-}});
 
 server.register(Inert, () => {});
 
@@ -83,7 +63,7 @@ server.route({
 });
 
 server.on('log', function(data) {
-    winston.log('info', {event: 'crawling', keys: data.data.keys});
+    logger.info({keys: data.data.keys}, 'crawling');
 });
 
 server.start((err) => {
@@ -91,5 +71,5 @@ server.start((err) => {
         throw err;
     }
 
-    winston.log('info', `server running at: ${server.info.uri}`);
+    logger.info('server start');
 });
