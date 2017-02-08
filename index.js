@@ -10,6 +10,7 @@ var logglyConfig = require('./config.json');
 var logglyStream = new Bunyan2Loggly(logglyConfig);
 
 const server = new Hapi.Server({
+  load: { sampleInterval: 1000 },
   debug: {
       log: ['spa'],
       request: ['spa']
@@ -66,6 +67,10 @@ server.on('log', function(data) {
     logger.info({keys: data.data.keys}, 'crawling');
 });
 
+server.on('response', (request) => {
+    logger.info({"user-agent": request.headers["user-agent"], path: request.path,  method: request.method}, 'response');
+});
+
 server.start((err) => {
     if (err) {
         throw err;
@@ -73,3 +78,7 @@ server.start((err) => {
 
     logger.info('server start');
 });
+
+setInterval(function() {
+    logger.info(server.load, 'load');
+}, 60000);
