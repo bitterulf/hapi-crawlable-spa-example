@@ -3,6 +3,7 @@ const Inert = require('inert');
 const Path = require('path');
 const Hapi = require('hapi');
 const config = require('./config.json');
+const _ = require('lodash');
 
 var bunyan = require('bunyan');
 var Bunyan2Loggly = require('bunyan-loggly');
@@ -40,8 +41,6 @@ var logger = bunyan.createLogger({
     ],
 });
 
-server.register(Inert, () => {});
-
 server.register({
     register: require('hapi-crawlable-spa'),
     options: {
@@ -50,6 +49,8 @@ server.register({
         uri: process.argv[3]
     }
 });
+
+server.register(Inert, () => {});
 
 server.route({
     method: 'GET',
@@ -68,7 +69,18 @@ server.on('log', function(data) {
 });
 
 server.on('response', (request) => {
-    logger.info({"user-agent": request.headers["user-agent"], path: request.path,  method: request.method}, 'response');
+    var source = '';
+    if (_.isString(request.response.source)) {
+        source = request.response.source;
+    }
+
+    logger.info({
+        "user-agent": request.headers["user-agent"],
+        url: request.url,
+        path: request.path,
+        method: request.method,
+        source: source
+    }, 'response');
 });
 
 server.start((err) => {
