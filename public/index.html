@@ -3,42 +3,33 @@
 <head>
     <meta name="fragment" content="!">
     <title>mithril</title>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/mithril/0.2.5/mithril.min.js'></script>
+    <script src="//unpkg.com/mithril/mithril.js"></script>
 </head>
 
 <body>
     <div id='app'>
-        <a href='?/content'>to the content</a>
     </div>
     <script>
         var loadedData = {};
 
         var Home = {
-            controller: function() {
-                return {}
-            },
-
-            view: function(ctrl) {
+            view: function (vnode) {
                 return m('div', [
                     m('h1', 'content'),
                     m('a[href="/content"]', {
-                        config: m.route
+                        oncreate: m.route.link
                     }, 'content')
                 ]);
             }
         };
 
         var Content = {
-            controller: function() {
-                return {}
-            },
-
             view: function(ctrl) {
                 return m('div', [
                     m('h1', (loadedData.title || 'loading')),
                     m('div', (loadedData.content || 'loading')),
                     m('a[href="/"]', {
-                        config: m.route
+                        oncreate: m.route.link
                     }, 'home')
                 ]);
             }
