@@ -18,7 +18,10 @@
                     m('h1', 'content'),
                     m('a[href="/content"]', {
                         oncreate: m.route.link
-                    }, 'content')
+                    }, 'content'),
+                    m('a[href="/cat"]', {
+                        oncreate: m.route.link
+                    }, 'cat')
                 ]);
             }
         };
@@ -35,9 +38,38 @@
             }
         };
 
+        var Cat = {
+            view: function(ctrl) {
+                return m('div', [
+                    m('h1', (loadedData.cat || 'loading')),
+                    m('div', (loadedData.cat || 'loading')),
+                    m('a[href="/"]', {
+                        oncreate: m.route.link
+                    }, 'home'),
+                    m('a[href="/dog"]', {
+                        oncreate: m.route.link
+                    }, 'dog')
+                ]);
+            }
+        };
+
+        var Dog = {
+            view: function(ctrl) {
+                return m('div', [
+                    m('h1', (loadedData.dog || 'loading')),
+                    m('div', (loadedData.dog || 'loading')),
+                    m('a[href="/"]', {
+                        oncreate: m.route.link
+                    }, 'home')
+                ]);
+            }
+        };
+
         m.route(document.getElementById('app'), '/', {
             '/': Home,
             '/content': Content,
+            '/cat': Cat,
+            '/dog': Dog
         });
 
         m.request({
